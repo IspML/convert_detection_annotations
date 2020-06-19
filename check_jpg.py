@@ -1,7 +1,7 @@
 # 从本地判断图片是否损坏
 # forked from https://www.cnblogs.com/helongBlog/p/11608579.html
 
-import os
+import os, cv2
 
 def check_jpg(path):
     ''' 检查jpeg文件是否损坏 '''
@@ -27,14 +27,9 @@ for root, dirs, files in os.walk(r"/root/bw/datasets/SKU110K_fixed/images"):
         if file[-4:] != '.jpg': continue
         file_path = os.path.join(root,file)
         flag = check_jpg(file_path)
-        if not flag:
+        if flag:
+            img = cv2.imread(file_path)
+            cv2.imwrite(file_path, img)
+        else:
             print(file_path)
             os.remove(file_path)
-
-# /root/bw/datasets/SKU110K_fixed/images/train_4222.jpg
-# /root/bw/datasets/SKU110K_fixed/images/train_340.jpg
-# /root/bw/datasets/SKU110K_fixed/images/train_882.jpg
-# /root/bw/datasets/SKU110K_fixed/images/test_274.jpg
-# /root/bw/datasets/SKU110K_fixed/images/train_924.jpg
-# /root/bw/datasets/SKU110K_fixed/images/test_853.jpg
-# /root/bw/datasets/SKU110K_fixed/images/train_3556.jpg
