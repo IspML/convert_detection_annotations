@@ -30,15 +30,19 @@ def check_jpg(path):
         return False
     return True
 
+!mogrify -set comment 'Image rewritten with ImageMagick' *.jpg
+# according to stackoverflow...
+
 for root, dirs, files in os.walk(r"/root/bw/datasets/SKU110K_fixed/images"):
     for file in files:
         if file[-4:].lower() not in ['.jpg', '.jpeg']: continue
         file_path = os.path.join(root,file)
+        print(file_path)
         flag = check_jpg(file_path)
         if flag:
-            pass # ...
             img = cv2.imread(file_path) # no need
             cv2.imwrite(file_path, img) # ??? ??!
         else:
-            print(file_path)
+            print("remove")
             os.remove(file_path)
+        print()
