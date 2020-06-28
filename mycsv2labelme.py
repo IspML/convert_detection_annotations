@@ -51,7 +51,7 @@ def converting(csv_file, image_path):
             "imagePath": key,
             "imageHeight": height,
             "imageWidth": width,
-            "imageData": base64.b64encode(np.asarray(Image.open(path2key)).decode('utf-8'),
+            "imageData": base64.b64encode(np.asarray(Image.open(path2key))).decode('utf-8'),
             "shapes": [{
                     "label": label[4],
                     "line_color": None,
@@ -65,8 +65,10 @@ def converting(csv_file, image_path):
 
 root_path = '/root/bw/datasets/SKU110K_fixed/'
 image_path = root_path + "images/"
-for csv_file in [root_path + "annotations/annotations_test.csv",
-                 root_path + "annotations/annotations_train.csv",
-                 root_path + "annotations/annotations_val.csv"]:
+annoo_path = root_path + "Annotations/" # anno, original
+for csv_file in [annoo_path + "annotations_test.csv",
+                 annoo_path + "annotations_train.csv",
+                 annoo_path + "annotations_val.csv"]:
     print('\n\nProcessing', csv_file)
-    converting(csv_file, image_path)
+    converting(csv_file, image_path) # new labelme anno_path is the image_path
+
