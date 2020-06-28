@@ -57,7 +57,7 @@ def converting(csv_file, image_path):
                     "line_color": None,
                     "fill_color": None,
                     "shape_type": "rectangle",
-                    "points": [[label[0], label[1]], [max(label[2], width-1), max(label[3], height-1)]]
+                    "points": [[label[0], label[1]], [min(label[2], width-1), min(label[3], height-1)]]
                 } for label in value]
         }
         json.dump(labelme_format, open("%s%s"%(image_path, key.replace(".jpg",".json")), "w"), ensure_ascii=False, indent=2)
