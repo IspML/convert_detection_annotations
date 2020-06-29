@@ -74,7 +74,7 @@ def converting(csv_file, root_path):
                 ymin = int(labels[1])
                 xmax = min(labels[2], width-1)
                 ymax = min(labels[3], height-1)
-                label_ = labels[-1]
+                label_ = 'bottle' # labels[-1]
                 if (xmax > xmin) and (ymax > ymin):
                     xml.write('\t<object>\n')
                     xml.write('\t\t<name>'+label_+'</name>\n')

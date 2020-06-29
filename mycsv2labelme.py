@@ -20,7 +20,7 @@ from IPython import embed
 from labelme import utils
 
 
-def converting(csv_file, image_path):
+def converting(csv_file, image_path, include_img=True):
     ''' only 1 function is defined and used here, for converting all the things.  parameters? sorry. '''
     #
     annotations = pd.read_csv(csv_file, header=None) # filename,xmin,ymin,xmax,ymax,label,width,height for SKU110K
@@ -51,7 +51,7 @@ def converting(csv_file, image_path):
             "imagePath": key,
             "imageHeight": height,
             "imageWidth": width,
-            "imageData": base64.b64encode(np.asarray(Image.open(path2key))).decode('utf-8'),
+            "imageData": base64.b64encode(np.asarray(Image.open(path2key))).decode('utf-8') if include_img else None,
             "shapes": [{
                     "label": label[4],
                     "line_color": None,
@@ -60,6 +60,7 @@ def converting(csv_file, image_path):
                     "points": [[label[0], label[1]], [min(label[2], width-1), min(label[3], height-1)]]
                 } for label in value]
         }
+        #
         json.dump(labelme_format, open("%s%s"%(image_path, key.replace(".jpg",".json")), "w"), ensure_ascii=False, indent=2)
 
 
