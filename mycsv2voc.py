@@ -21,7 +21,7 @@ def converting(csv_file, root_path):
     ''' only 1 function is defined and used here, for converting all the things.  parameters? sorry. '''
     #
     ann_path = root_path + 'Annotations/'
-    jpg_path = root_path + 'images/'
+    jpg_path = root_path + 'JPEGImages/'
     annotations = pd.read_csv(csv_file, header=None) # filename,xmin,ymin,xmax,ymax,label,width,height for SKU110K
     #
     # save the labels and the image dims. into dicts
