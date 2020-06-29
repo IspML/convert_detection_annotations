@@ -64,7 +64,7 @@ def converting(csv_file, image_path):
 
 
 root_path = '/root/bw/datasets/SKU110K_fixed/'
-image_path = root_path + "images/"
+image_path = root_path + "JPEGImages/"
 annoo_path = root_path + "Annotations/" # anno, original
 for csv_file in [annoo_path + "annotations_test.csv",
                  annoo_path + "annotations_train.csv",
