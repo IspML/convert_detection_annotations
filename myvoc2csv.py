@@ -25,7 +25,7 @@ for filename in src_xmls:
         ymax = min(height, int(bndbox.find('ymax').text))
         if xmax-xmin<=0 or ymax-ymin<=0: continue
         # filename,xmin,ymin,xmax,ymax,label,width,height; same with SKU110K::
-        record = [filename+'.jpg', xmin, ymin, xmax, ymax, 'obj', width, height]
+        record = [filename+'.jpg', xmin, ymin, xmax, ymax, 'object', width, height]
         bbox = [xmin, xmax, ymin, ymax]
         records.append(record)
 
