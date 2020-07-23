@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 base_dir = '/root/bw/datasets/'
 src_dir  = base_dir + 'shop100_cigcase/'
-dst_csv  = src_dir  + 'shop100_annotaion.csv'
+dst_csv  = src_dir  + 'shop100_annotation.csv'
 src_xmls = [fn[:-4] for fn in os.listdir(src_dir) if fn[-4:]=='.xml'] # no suffix!
 
 records  = []
