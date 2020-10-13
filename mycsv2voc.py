@@ -17,18 +17,18 @@ import shutil
 from sklearn.model_selection import train_test_split
 from IPython import embed
 
-def converting(csv_file, root_path):
+def converting(csv_file, root_path, skiprows=[0], sep='/'): # os.sep
     ''' only 1 function is defined and used here, for converting all the things.  parameters? sorry. '''
     #
     ann_path = root_path + 'Annotations/'
     jpg_path = root_path + 'JPEGImages/'
-    annotations = pd.read_csv(csv_file, header=None) # filename,xmin,ymin,xmax,ymax,label,width,height for SKU110K
+    annotations = pd.read_csv(csv_file, skiprows=skiprows, header=None) # filename,xmin,ymin,xmax,ymax,label,width,height
     #
     # save the labels and the image dims. into dicts
     total_csv_annotations = {}
     total_csv_size = {}
     for annotation in annotations.values:
-        key = annotation[0].split(os.sep)[-1] # to obtain the real filename, ie, to delete the parental folders.
+        key = annotation[0].split(sep)[-1] # to obtain the real filename, without the parental folders
         value = annotation[1:6]
         width, height = annotation[6:]
         if key in total_csv_annotations.keys():
@@ -39,16 +39,17 @@ def converting(csv_file, root_path):
     # ---
     # write labels into xml
     for filename, label in total_csv_annotations.items():
-        if not os.path.exists(jpg_path+filename):
-            print('[skipped]:', filename)
+        fname = filename.split(sep)[-1]
+        if not os.path.exists(jpg_path+fname):
+            print('[skipped]:', fname)
             continue
-        print('processing', filename)
-        width, height = total_csv_size[filename]
+        print('processing', fname)
+        width, height = total_csv_size[fname]
         channels = 3
-        with codecs.open(ann_path+filename.replace(".jpg",".xml"), "w", "utf-8") as xml:
+        with codecs.open(ann_path+fname.replace(".jpg",".xml"), "w", "utf-8") as xml:
             xml.write('<annotation>\n')
             xml.write('\t<folder>' + 'UAV_data' + '</folder>\n')
-            xml.write('\t<filename>' + filename + '</filename>\n')
+            xml.write('\t<filename>' + fname + '</filename>\n')
             xml.write('\t<source>\n')
             xml.write('\t\t<database>The UAV autolanding</database>\n')
             xml.write('\t\t<annotation>UAV AutoLanding</annotation>\n')
@@ -57,7 +58,7 @@ def converting(csv_file, root_path):
             xml.write('\t</source>\n')
             xml.write('\t<owner>\n')
             xml.write('\t\t<flickrid>NULL</flickrid>\n')
-            xml.write('\t\t<name>ChaojieZhu</name>\n')
+            xml.write('\t\t<name>yuyi</name>\n') # 于一
             xml.write('\t</owner>\n')
             xml.write('\t<size>\n')
             xml.write('\t\t<width>'+ str(width) + '</width>\n')
@@ -74,7 +75,7 @@ def converting(csv_file, root_path):
                 ymin = int(labels[1])
                 xmax = min(labels[2], width-1)
                 ymax = min(labels[3], height-1)
-                label_ = 'bottle' # labels[-1]
+                label_ = labels[-1]
                 if (xmax > xmin) and (ymax > ymin):
                     xml.write('\t<object>\n')
                     xml.write('\t\t<name>'+label_+'</name>\n')
@@ -90,11 +91,8 @@ def converting(csv_file, root_path):
                     xml.write('\t</object>\n')
             xml.write('</annotation>')
 
-root_path = '/root/bw/datasets/SKU110K_fixed/'
-anno_path = root_path + 'Annotations/'
-for csv_file in [anno_path + "annotations_test.csv",
-                 anno_path + "annotations_train.csv",
-                 anno_path + "annotations_val.csv"]:
-    print('\n\nProcessing', csv_file)
-    converting(csv_file, root_path)
-
+root_path = './lic_wgl0924_xmlAnno/'
+csv_file = "annotation2.csv"
+print('\n\nProcessing', csv_file)
+converting(csv_file, root_path)
+print('done')
