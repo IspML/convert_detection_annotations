@@ -112,10 +112,10 @@ def converting(csv_file, root_path, skiprows=[0], sep='/'): # os.sep
                 xml.write('</annotation>')
                 continue
             for labels in label:
-                xmin = max(0, int(labels[0]))
-                ymin = max(0, int(labels[1]))
-                xmax = max(0, min(labels[2], width-1))
-                ymax = max(0, min(labels[3], height-1))
+                xmin = max(1, int(labels[0]))
+                ymin = max(1, int(labels[1]))
+                xmax = max(1, min(labels[2], width-1))
+                ymax = max(1, min(labels[3], height-1))
                 label_ = labels[-1]
                 if (xmax > xmin) and (ymax > ymin):
                     xml.write('\t<object>\n')
